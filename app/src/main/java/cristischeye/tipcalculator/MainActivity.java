@@ -2,6 +2,8 @@ package cristischeye.tipcalculator;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -29,25 +31,48 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupEditTextHandlers() {
-        etSubtotal.setOnEditorActionListener(new OnEditorActionListener() {
+        etSubtotal.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                String subtotalText = v.getText().toString();
-                subtotal = Double.parseDouble(subtotalText);
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String subtotalText = etSubtotal.getText().toString();
+
+                if (subtotalText.length() > 0) {
+                    subtotal = Double.parseDouble(subtotalText);
+                }
+                else {
+                    subtotal = 0;
+                }
 
                 setTvTipAmount();
-                return false;
             }
         });
 
-        etOtherPercent.setOnEditorActionListener(new OnEditorActionListener() {
+        etOtherPercent.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                String percentText = v.getText().toString();
-                tipPercent = Double.parseDouble(percentText) / 100;
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String percentText = etOtherPercent.getText().toString();
+
+                if (percentText.length() > 0) {
+                    tipPercent = Double.parseDouble(percentText) / 100;
+                }
+                else {
+                    tipPercent = 0;
+                }
+
 
                 setTvTipAmount();
-                return false;
             }
         });
     }
